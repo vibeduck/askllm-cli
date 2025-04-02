@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,26 +18,29 @@ jobs:
       uses: actions/setup-go@v5
       with:
         go-version: '1.21'
+        cache: true
+
+    - name: Download dependencies
+      run: go mod download
 
     - name: Build
       run: |
-        GOOS=linux GOARCH=amd64 go build -o askllm-linux-amd64
-        GOOS=linux GOARCH=arm64 go build -o askllm-linux-arm64
-        GOOS=linux GOARCH=arm go build -o askllm-linux-armv7
-        GOOS=darwin GOARCH=amd64 go build -o askllm-darwin-amd64
-        GOOS=darwin GOARCH=arm64 go build -o askllm-darwin-arm64
+        mkdir -p dist
+        GOOS=linux GOARCH=amd64 go build -o dist/askllm-linux-amd64
+        GOOS=linux GOARCH=arm64 go build -o dist/askllm-linux-arm64
+        GOOS=linux GOARCH=arm GOARM=7 go build -o dist/askllm-linux-armv7
+        GOOS=darwin GOARCH=amd64 go build -o dist/askllm-darwin-amd64
+        GOOS=darwin GOARCH=arm64 go build -o dist/askllm-darwin-arm64
 
     - name: Create Release
-      id: create_release
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          askllm-linux-amd64
-          askllm-linux-arm64
-          askllm-linux-armv7
-          askllm-darwin-amd64
-          askllm-darwin-arm64
+          dist/askllm-linux-amd64
+          dist/askllm-linux-arm64
+          dist/askllm-linux-armv7
+          dist/askllm-darwin-amd64
+          dist/askllm-darwin-arm64
         draft: false
         prerelease: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        generate_release_notes: true 

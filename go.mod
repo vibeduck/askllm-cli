@@ -1,4 +1,4 @@
-module github.com/kaji/askllm-cli
+module github.com/vibeduck/askllm-cli
 
 go 1.21
 

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/kaji/askllm-cli/pkg/api"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"github.com/vibeduck/askllm-cli/pkg/api"
 )
 
 var (
