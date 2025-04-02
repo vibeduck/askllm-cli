@@ -27,8 +27,14 @@ OPENAI_API_KEY environment variable or using the --openai-api-key flag.`,
 
 func init() {
 	rootCmd.PersistentFlags().StringVar(&openaiAPIKey, "openai-api-key", "", "OpenAI API key")
-	viper.BindEnv("openai-api-key", "OPENAI_API_KEY")
-	viper.BindPFlag("openai-api-key", rootCmd.PersistentFlags().Lookup("openai-api-key"))
+	if err := viper.BindEnv("openai-api-key", "OPENAI_API_KEY"); err != nil {
+		fmt.Fprintf(os.Stderr, "Error binding environment variable: %v\n", err)
+		os.Exit(1)
+	}
+	if err := viper.BindPFlag("openai-api-key", rootCmd.PersistentFlags().Lookup("openai-api-key")); err != nil {
+		fmt.Fprintf(os.Stderr, "Error binding flag: %v\n", err)
+		os.Exit(1)
+	}
 }
 
 func askQuestion(question string) error {
