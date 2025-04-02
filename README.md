@@ -14,14 +14,14 @@ A simple yet powerful Command-Line Interface (CLI) tool that enables users to as
 ### From Source
 
 ```bash
-git clone https://github.com/kaji/askllm-cli.git
+git clone https://github.com/vibeduck/askllm-cli.git
 cd askllm-cli
 go build
 ```
 
 ### From Releases
 
-Download the appropriate binary for your platform from the [GitHub Releases](https://github.com/kaji/askllm-cli/releases) page.
+Download the appropriate binary for your platform from the [GitHub Releases](https://github.com/vibeduck/askllm-cli/releases) page.
 
 ## Usage
 
